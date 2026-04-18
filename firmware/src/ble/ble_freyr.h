@@ -3,24 +3,15 @@
 
 #include <stdint.h>
 
-/**
- * @brief Inicjalizuje stos Bluetooth i zaczyna rozgłaszanie (Advertising).
- */
 int ble_freyr_init(void);
 
-/**
- * @brief Aktualizuje i wysyła powiadomienie (Notify) o temperaturze.
- * @param temp_celsius Temperatura w formacie (C * 100)
- */
+/* Funkcje notyfikujące (wypychające dane do telefonu) */
 void ble_freyr_notify_temp(int16_t temp_celsius);
-
-/**
- * @brief Aktualizuje i wysyła powiadomienie (Notify) o wilgotności.
- * @param humidity_pct Wilgotność w formacie (% * 100)
- */
 void ble_freyr_notify_humidity(uint16_t humidity_pct);
+void ble_freyr_notify_soil(int8_t soil_pct);
+void ble_freyr_notify_light(int32_t lux);
 
-/* Funkcja do pobierania ustawionego przez BLE interwału */
+/* Funkcje pobierające ustawienia (z telefonu do urządzenia) */
 uint16_t ble_freyr_get_sampling_interval(void);
 
-#endif
+#endif /* BLE_FREYR_H */

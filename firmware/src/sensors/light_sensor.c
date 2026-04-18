@@ -55,3 +55,19 @@ int32_t light_sensor_read_mv(void)
 
     return val_mv;
 }
+
+int32_t calculate_lux(int32_t current_mv)
+{
+    if (current_mv <= LIGHT_MIN_MV) return 0;
+
+    /* Wyliczamy "jasność" w skali 0.0 - 1.0 */
+    double normalized = (double)(current_mv - LIGHT_MIN_MV) / (LIGHT_MAX_MV - LIGHT_MIN_MV);
+    
+    if (normalized > 1.0) normalized = 1.0;
+
+    /* Używamy potęgi (np. 3.0), aby uzyskać nieliniowy wzrost luksów.
+       Dzięki temu małe zmiany przy niskim świetle są lepiej widoczne. */
+    double lux = pow(normalized, 3.0) * MAX_LUX;
+
+    return (int32_t)lux;
+}

@@ -9,5 +9,6 @@ target_sources(app PRIVATE
     src/sensors/light_sensor.c
     src/sensors/ultrasonic.c
     src/sensors/bme280.c
-    src/sensors/ble_freyr.c
+    src/ble/ble_freyr.c
+    src/sensors/soil_sensor.c
 )

@@ -14,23 +14,20 @@ int bme280_init(void)
     return 0;
 }
 
-void bme280_print_data(void)
+int bme280_read_for_ble(int16_t *temp, uint16_t *hum)
 {
-    struct sensor_value temp, press, humidity;
+    struct sensor_value t, h;
     
-    /* Pobranie nowych próbek z czujnika */
     if (sensor_sample_fetch(bme_dev) < 0) {
-        printf("BME280: Blad odczytu!\n");
-        return;
+        return -1;
     }
 
-    /* Wyciągnięcie konkretnych danych */
-    sensor_channel_get(bme_dev, SENSOR_CHAN_AMBIENT_TEMP, &temp);
-    sensor_channel_get(bme_dev, SENSOR_CHAN_PRESS, &press);
-    sensor_channel_get(bme_dev, SENSOR_CHAN_HUMIDITY, &humidity);
+    sensor_channel_get(bme_dev, SENSOR_CHAN_AMBIENT_TEMP, &t);
+    sensor_channel_get(bme_dev, SENSOR_CHAN_HUMIDITY, &h);
 
-    printf("BME280 -> Temp: %.1f C | Cisnienie: %.1f hPa | Wilgotnosc: %.1f %%\n",
-           sensor_value_to_double(&temp),
-           sensor_value_to_double(&press) * 10.0, /* Zephyr podaje ciśnienie w kPa, mnożymy razy 10 dla hPa */
-           sensor_value_to_double(&humidity));
+    /* Konwersja na double, a potem mnożenie przez 100 (np. 22.53 * 100 = 2253) */
+    *temp = (int16_t)(sensor_value_to_double(&t) * 100.0);
+    *hum  = (uint16_t)(sensor_value_to_double(&h) * 100.0);
+
+    return 0;
 }
