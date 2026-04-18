@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 import { useAppStore } from '@/state/app';
 import { colors, fonts } from '@/theme/tokens';
 
-import { AddPlantScreen } from '@/screens/index';
+import { OnboardingScreen } from '@/screens/Onboarding';
 import { DashboardScreen } from '@/screens/Dashboard';
 import { ChatScreen } from '@/screens/Chat';
 import { KronikaSagaScreen } from '@/screens/KronikaSaga';
@@ -55,8 +55,8 @@ export function Root() {
   const done = useAppStore(s => s.onboardingDone);
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={done ? "Tabs" : "AddPlant"}>
-        <Stack.Screen name="AddPlant" component={AddPlantScreen} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {!done && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
         <Stack.Screen name="Tabs" component={Tabs} />
       </Stack.Navigator>
     </NavigationContainer>
