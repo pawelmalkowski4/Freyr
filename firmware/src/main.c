@@ -1,48 +1,49 @@
-/*
- * Copyright (c) 2016 Intel Corporation
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-#include <stdio.h>
 #include <zephyr/kernel.h>
-#include <zephyr/drivers/gpio.h>
-
-/* 1000 msec = 1 sec */
-#define SLEEP_TIME_MS   100
-
-/* The devicetree node identifier for the "led0" alias. */
-#define LED0_NODE DT_ALIAS(led0)
-
-/*
- * A build error on this line means your board is unsupported.
- * See the sample documentation for information on how to fix this.
- */
-static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
+#include <stdio.h>
+#include "sensors/light_sensor.h"
+#include "sensors/ultrasonic.h"
+#include "sensors/bme280.h"
 
 int main(void)
 {
-	int ret;
-	bool led_state = true;
+    printf("\n*** START SYSTEMU POMIAROWEGO ***\n");
 
-	if (!gpio_is_ready_dt(&led)) {
-		return 0;
-	}
+    if (light_sensor_init() != 0) {
+        printf("Błąd ADC (Swiatlo)!\n");
+    }
 
-	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
-	if (ret < 0) {
-		return 0;
-	}
+    if (ultrasonic_init() != 0) {
+        printf("Błąd GPIO (HC-SR04)!\n");
+    }
 
-	while (1) {
-		ret = gpio_pin_toggle_dt(&led);
-		if (ret < 0) {
-			return 0;
-		}
+    if (bme280_init() != 0) {
+        printf("Błąd I2C (BME280)! Sprawdź kable i adres I2C.\n");
+    }
 
-		led_state = !led_state;
-		printf("LED state: %s\n", led_state ? "ON" : "OFF");
-		k_msleep(SLEEP_TIME_MS);
-	}
-	return 0;
+    while (1) {
+        int32_t lux_mv = light_sensor_read_mv();
+        double dist = ultrasonic_get_distance_cm();
+
+        printf("\n--- ODCZYT CZUJNIKOW ---\n");
+        
+        /* 1. Światło */
+        if (lux_mv >= 0) {
+            printf("Swiatlo:  %d mV\n", lux_mv);
+        }
+        
+        
+        /* 2. Dystans */
+        if (dist == -1.0) {
+            printf("Dystans:  Blad (-1) - Czujnik milczy\n");
+        } else if (dist == -2.0) {
+            printf("Dystans:  Blad (-2) - Zawieszone na 1\n");
+        } else {
+            printf("Dystans:  %.2f cm\n", dist);
+        }
+
+        /* 3. BME280 */
+        bme280_print_data();
+
+        k_msleep(2000); /* Zmiana na 2 sekundy dla czytelności w terminalu */
+    }
 }
