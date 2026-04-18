@@ -39,6 +39,7 @@ export const api = {
   analyze: (params: {
     species: string; oldNorseName?: string;
     optimal: any; current: any; avg24h: any; mode: 'saga' | 'plain';
+    photo?: string;
   }) => post<{
     health_score: number;
     message: string;
@@ -46,8 +47,29 @@ export const api = {
     actions: { priority: number; action: string; quantity: string; deadline_hours: number }[];
   }>('/analyze', params),
 
-  chat: (params: { sessionId: string; plantId: string; message: string; mode: 'saga' | 'plain' }) =>
-    post<{ reply: string }>('/chat', params),
+  chat: (params: {
+    sessionId: string;
+    plantId: string;
+    message: string;
+    mode: 'saga' | 'plain';
+    history?: { role: 'user' | 'model'; text: string }[];
+    plant?: {
+      name?: string;
+      species?: string;
+      optimal?: {
+        temperature_c: [number, number];
+        humidity_pct: [number, number];
+        light_lux: [number, number];
+        soil_moisture_pct: [number, number];
+      };
+    };
+    sensors?: {
+      temperature_c?: number | null;
+      humidity_pct?: number | null;
+      light_lux?: number | null;
+      soil_moisture_pct?: number | null;
+    };
+  }) => post<{ reply: string }>('/chat', params),
 
   saga: (params: { gardenName: string; plants: any; aggregates: any; events: any }) =>
     post<{ title: string; body: string; tone: 'hopeful' | 'neutral' | 'ominous' }>('/saga', params),

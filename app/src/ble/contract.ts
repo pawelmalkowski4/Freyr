@@ -6,11 +6,10 @@
 export const FREYR_SERVICE_UUID = '0000aaaa-0000-1000-8000-00805f9b34fb';
 
 export const CHARS = {
-  TEMP:        '0000aaa1-0000-1000-8000-00805f9b34fb', // int16 °C×100
-  HUMIDITY:    '0000aaa2-0000-1000-8000-00805f9b34fb', // uint16 %×100
-  PRESSURE:    '0000aaa3-0000-1000-8000-00805f9b34fb', // uint32 Pa
-  LIGHT:       '0000aaa4-0000-1000-8000-00805f9b34fb', // uint16 lux
-  SOIL:        '0000aaa5-0000-1000-8000-00805f9b34fb', // uint8 %
+  TEMP:        '0000aaa1-0000-1000-8000-00805f9b34fb', // int16 LE, °C×100
+  HUMIDITY:    '0000aaa2-0000-1000-8000-00805f9b34fb', // uint16 LE, %×100
+  SOIL:        '0000aaa3-0000-1000-8000-00805f9b34fb', // int8 LE, % (negative = error)
+  LIGHT:       '0000aaa4-0000-1000-8000-00805f9b34fb', // int32 LE, lux (negative = error)
   INTERVAL:    '0000aaa6-0000-1000-8000-00805f9b34fb', // uint16 s
   DEVICE_NAME: '0000aaa7-0000-1000-8000-00805f9b34fb', // utf8
   LED_STATUS:  '0000aaa8-0000-1000-8000-00805f9b34fb', // uint8 enum

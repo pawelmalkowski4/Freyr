@@ -21,17 +21,36 @@ export const useSensorStore = create<SensorState>((set) => ({
   set: (patch) => set(patch),
 }));
 
-// Derived: grace score 0-100
-export function graceScore(s: SensorState, optimal: { soilMin: number; soilMax: number; lightMin: number; lightMax: number; tempMin: number; tempMax: number }): number {
-  const score = (v: number | null, lo: number, hi: number) => {
-    if (v == null) return 50;
-    if (v >= lo && v <= hi) return 100;
-    const dist = v < lo ? lo - v : v - hi;
-    const range = hi - lo;
-    return Math.max(0, 100 - (dist / range) * 100);
+// Per-parameter centrality score: 100 at the middle of [lo,hi], 60 at edges,
+// drops below quickly as value leaves the range. Returns null when no reading.
+function centralityScore(v: number | null, lo: number, hi: number): number | null {
+  if (v == null) return null;
+  const half = Math.max((hi - lo) / 2, 0.0001);
+  const center = (lo + hi) / 2;
+  const normalized = Math.abs(v - center) / half; // 0 at center, 1 at edge, >1 outside
+  return Math.max(0, Math.min(100, 100 - normalized * 40));
+}
+
+// Derived: grace score 0-100. Returns null if no parameters have readings yet.
+export function graceScore(
+  s: SensorState,
+  optimal: {
+    soilMin: number; soilMax: number;
+    lightMin: number; lightMax: number;
+    tempMin: number; tempMax: number;
+    humidityMin: number; humidityMax: number;
+  },
+): number | null {
+  const parts: { value: number; weight: number }[] = [];
+  const push = (score: number | null, weight: number) => {
+    if (score != null) parts.push({ value: score, weight });
   };
-  const a = score(s.soil,  optimal.soilMin,  optimal.soilMax);
-  const b = score(s.light, optimal.lightMin, optimal.lightMax);
-  const c = score(s.temp,  optimal.tempMin,  optimal.tempMax);
-  return Math.round((a * 0.5 + b * 0.25 + c * 0.25));
+  push(centralityScore(s.soil,     optimal.soilMin,     optimal.soilMax),     0.4);
+  push(centralityScore(s.light,    optimal.lightMin,    optimal.lightMax),    0.2);
+  push(centralityScore(s.temp,     optimal.tempMin,     optimal.tempMax),     0.2);
+  push(centralityScore(s.humidity, optimal.humidityMin, optimal.humidityMax), 0.2);
+  if (parts.length === 0) return null;
+  const totalW = parts.reduce((acc, p) => acc + p.weight, 0);
+  const weighted = parts.reduce((acc, p) => acc + p.value * p.weight, 0);
+  return Math.round(weighted / totalW);
 }

@@ -1,0 +1,9 @@
+name = "freyrs-eye-backend"
+main = "src/index.ts"
+compatibility_date = "2026-04-18"
+
+[vars]
+APP_NAME = "Freyr's Eye"
+GEMINI_MODEL = "gemini-2.5-flash"
+# Set GEMINI_API_KEY as a secret: `wrangler secret put GEMINI_API_KEY`
+# For local dev put it in .dev.vars (gitignored): GEMINI_API_KEY=...

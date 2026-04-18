@@ -18,7 +18,11 @@
         "NSBluetoothAlwaysUsageDescription": "Freyr's Eye łączy się z czujnikiem rośliny przez Bluetooth.",
         "NSBluetoothPeripheralUsageDescription": "Freyr's Eye łączy się z czujnikiem rośliny przez Bluetooth.",
         "NSCameraUsageDescription": "Aparat służy do identyfikacji gatunku rośliny.",
-        "NSPhotoLibraryUsageDescription": "Wybór zdjęcia rośliny do identyfikacji."
+        "NSPhotoLibraryUsageDescription": "Wybór zdjęcia rośliny do identyfikacji.",
+        "NSLocalNetworkUsageDescription": "Freyr's Eye łączy się z lokalnym backendem w Twojej sieci.",
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        }
       }
     },
     "android": {
@@ -52,7 +56,7 @@
       ]
     ],
     "extra": {
-      "BACKEND_URL": "https://freyrs-eye-api.example.workers.dev"
+      "BACKEND_URL": "https://freyrs-eye-backend.freyr.workers.dev"
     }
   }
 }

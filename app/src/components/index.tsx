@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { View, Text, ViewStyle, TextStyle, DimensionValue } from 'react-native';
+import Svg, { Path, Rect, Circle } from 'react-native-svg';
 import { colors, fonts, radius, space, shadow } from '@/theme/tokens';
 
 export const Card = ({ children, style, paper2 }: { children: React.ReactNode; style?: ViewStyle; paper2?: boolean }) => (
@@ -40,28 +41,93 @@ export const Rune = ({ children, size = 22, color = colors.gold }: { children: R
   <Text style={{ fontFamily: fonts.serif, fontSize: size, color, lineHeight: size * 1.05 }}>{children}</Text>
 );
 
+export const Chart = ({ data, color, opt, max = 100, min = 0 }: {
+  data: number[]; color: string; opt?: [number, number]; max?: number; min?: number;
+}) => {
+  const w = 320, h = 70, pad = 4;
+  if (data.length === 0) {
+    return (
+      <View style={{ height: 90, marginTop: 12, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontFamily: fonts.mono, fontSize: 11, color: colors.inkFaint, letterSpacing: 0.8 }}>
+          BRAK HISTORII
+        </Text>
+      </View>
+    );
+  }
+  const effMin = opt ? Math.min(min, opt[0], ...data) : Math.min(min, ...data);
+  const effMax = opt ? Math.max(max, opt[1], ...data) : Math.max(max, ...data);
+  const span = Math.max(effMax - effMin, 1);
+  const norm = (v: number) => h - pad - ((v - effMin) / span) * (h - pad * 2);
+  const single = data.length === 1;
+  const pts = data.map((v, i) => [
+    single ? w / 2 : pad + (i / (data.length - 1)) * (w - pad * 2),
+    norm(v),
+  ]);
+  const path = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const area = path + ` L${w - pad} ${h - pad} L${pad} ${h - pad} Z`;
+  return (
+    <View style={{ height: 90, marginTop: 12 }}>
+      <Svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: '100%' }}>
+        {opt && (
+          <Rect
+            x={pad}
+            y={norm(opt[1])}
+            width={w - pad * 2}
+            height={Math.max(0, norm(opt[0]) - norm(opt[1]))}
+            fill="rgba(107,138,74,0.15)"
+          />
+        )}
+        <Path d={area} fill={color} opacity="0.15" />
+        <Path d={path} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        {pts.map((p, i) =>
+          i === pts.length - 1 ? (
+            <Circle key={i} cx={p[0]} cy={p[1]} r="4" fill={color} stroke="#fff" strokeWidth="2" />
+          ) : null
+        )}
+      </Svg>
+    </View>
+  );
+};
+
 export const SensorBar = ({ name, value, unit, min, max, optMin, optMax, status = 'good' }: {
-  name: string; value: number; unit: string; min: number; max: number;
+  name: string; value: number | null; unit: string; min: number; max: number;
   optMin: number; optMax: number; status?: 'good' | 'warn' | 'bad';
 }) => {
-  const pct = (v: number) => ((v - min) / (max - min)) * 100;
+  // Expand axis if optimal range (or current value) exceeds provided min/max.
+  const effMin = Math.min(min, optMin, value ?? optMin);
+  const effMax = Math.max(max, optMax, value ?? optMax);
+  const span = Math.max(effMax - effMin, 1);
+  const clamp = (p: number) => Math.max(0, Math.min(100, p));
+  const pct = (v: number) => clamp(((v - effMin) / span) * 100);
+  const optLeft = `${pct(optMin)}%` as DimensionValue;
+  const optWidth = `${Math.max(0, pct(optMax) - pct(optMin))}%` as DimensionValue;
+  const hasValue = value != null;
+  const valueLeft = hasValue ? (`${pct(value!)}%` as DimensionValue) : undefined;
   return (
     <View style={{ paddingVertical: 10 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
         <Text style={{ fontFamily: fonts.sans, fontSize: 14, color: colors.ink, flex: 1 }}>{name}</Text>
-        <Text style={{ fontFamily: fonts.mono, fontSize: 13, color: colors.ink }}>{value}{unit}</Text>
+        <Text style={{ fontFamily: fonts.mono, fontSize: 13, color: hasValue ? colors.ink : colors.inkFaint }}>
+          {hasValue ? `${value}${unit}` : `— ${unit}`.trim()}
+        </Text>
       </View>
       <View style={{ height: 8, backgroundColor: colors.paper3, borderRadius: 999, overflow: 'visible' }}>
         <View style={{
           position: 'absolute', top: 0, bottom: 0,
-          left: pct(optMin) + '%', width: (pct(optMax) - pct(optMin)) + '%',
+          left: optLeft, width: optWidth,
           backgroundColor: 'rgba(107,138,74,0.28)', borderRadius: 999,
         }} />
-        <View style={{
-          position: 'absolute', top: -4, left: `${pct(value)}%`,
-          marginLeft: -8, width: 16, height: 16, borderRadius: 8,
-          backgroundColor: colors[status], borderWidth: 3, borderColor: colors.paper,
-        }} />
+        {hasValue && valueLeft !== undefined && (
+          <View style={{
+            position: 'absolute', top: -4, left: valueLeft,
+            marginLeft: -8, width: 16, height: 16, borderRadius: 8,
+            backgroundColor: colors[status], borderWidth: 3, borderColor: colors.paper,
+          }} />
+        )}
+      </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 4 }}>
+        <Mono style={{ fontSize: 10, color: colors.inkFaint }}>{Math.round(effMin)}{unit}</Mono>
+        <Mono style={{ fontSize: 10, color: colors.inkFaint }}>{Math.round(effMax)}{unit}</Mono>
       </View>
     </View>
   );

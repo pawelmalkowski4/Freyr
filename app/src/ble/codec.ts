@@ -3,13 +3,23 @@ import { Buffer } from 'buffer';
 
 const buf = (b64: string) => Buffer.from(b64, 'base64');
 
-export const decodeTemp     = (b64: string) => buf(b64).readInt16LE(0) / 100;        // °C
-export const decodeHumidity = (b64: string) => buf(b64).readUInt16LE(0) / 100;       // %
-export const decodePressure = (b64: string) => buf(b64).readUInt32LE(0);             // Pa
-export const decodeLight    = (b64: string) => buf(b64).readUInt16LE(0);             // lux
-export const decodeSoil     = (b64: string) => buf(b64).readUInt8(0);                // %
-export const decodeBattery  = (b64: string) => buf(b64).readUInt8(0);                // %
-export const decodeString   = (b64: string) => buf(b64).toString('utf-8');
+export const decodeTemp     = (b64: string): number => buf(b64).readInt16LE(0) / 100;  // °C
+export const decodeHumidity = (b64: string): number => buf(b64).readUInt16LE(0) / 100; // %
+
+// Soil: int8 signed, negative value (e.g. -1) signals firmware read error → ignore.
+export const decodeSoil = (b64: string): number | null => {
+  const v = buf(b64).readInt8(0);
+  return v < 0 ? null : v;
+};
+
+// Light: int32 signed, negative value signals firmware read error → ignore.
+export const decodeLight = (b64: string): number | null => {
+  const v = buf(b64).readInt32LE(0);
+  return v < 0 ? null : v;
+};
+
+export const decodeBattery  = (b64: string): number => buf(b64).readUInt8(0);          // %
+export const decodeString   = (b64: string): string => buf(b64).toString('utf-8');
 
 export const encodeUInt8  = (v: number) => Buffer.from([v]).toString('base64');
 export const encodeUInt16 = (v: number) => {

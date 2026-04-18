@@ -1,6 +1,6 @@
 // Re-export individual screens — keeps imports clean (one file per screen later if needed)
 export {
-  OnboardingScreen,
+  AddPlantScreen as OnboardingScreen,
   DashboardScreen,
   ChatScreen,
   KronikaSagaScreen,
