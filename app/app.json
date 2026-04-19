@@ -1,0 +1,62 @@
+{
+  "expo": {
+    "name": "Freyr's Eye",
+    "slug": "freyrs-eye",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1714"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "io.freyrs.eye",
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "Freyr's Eye łączy się z czujnikiem rośliny przez Bluetooth.",
+        "NSBluetoothPeripheralUsageDescription": "Freyr's Eye łączy się z czujnikiem rośliny przez Bluetooth.",
+        "NSCameraUsageDescription": "Aparat służy do identyfikacji gatunku rośliny.",
+        "NSPhotoLibraryUsageDescription": "Wybór zdjęcia rośliny do identyfikacji.",
+        "NSLocalNetworkUsageDescription": "Freyr's Eye łączy się z lokalnym backendem w Twojej sieci.",
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        }
+      }
+    },
+    "android": {
+      "package": "io.freyrs.eye",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a1714"
+      },
+      "permissions": [
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT",
+        "android.permission.BLUETOOTH_SCAN",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.CAMERA"
+      ]
+    },
+    "plugins": [
+      "expo-dev-client",
+      [
+        "react-native-ble-plx",
+        {
+          "isBackgroundEnabled": false,
+          "modes": ["peripheral", "central"],
+          "bluetoothAlwaysPermission": "Freyr's Eye łączy się z czujnikiem rośliny."
+        }
+      ],
+      [
+        "expo-camera",
+        { "cameraPermission": "Pozwól apce robić zdjęcia rośliny." }
+      ]
+    ],
+    "extra": {
+      "BACKEND_URL": "https://freyrs-eye-backend.freyr.workers.dev"
+    }
+  }
+}

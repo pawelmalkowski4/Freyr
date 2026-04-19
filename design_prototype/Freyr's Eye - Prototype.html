@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<title>Freyr's Eye — Hi-fi Prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="prototype-style.css" />
+</head>
+<body data-tone="saga">
+
+<div class="stage">
+  <div class="chrome-head">
+    <div class="brand">Freyr's Eye <span class="runes">ᚠᚱᛖᚣᚱ</span></div>
+    <div id="flow-label">Hi-fi · klikalny prototyp</div>
+  </div>
+
+  <div class="phone" id="phone">
+    <div class="island"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <span style="font-family: 'JetBrains Mono', monospace;">• • •</span>
+    </div>
+    <div id="app-root"></div>
+    <div class="home-ind"></div>
+  </div>
+
+  <div class="flow-hint">
+    Kliknij ikony u dołu, by przełączać widoki · Ustawienia → zmień ton narracji i stan łaski · Tweaks (↘) zapisuje zmiany
+  </div>
+</div>
+
+<div id="tweak-panel">
+  <h4>Tweaks</h4>
+  <div class="row2">
+    <label>Ton narracji</label>
+    <div class="seg" id="seg-tone">
+      <button data-v="saga">Saga</button>
+      <button data-v="plain">Plain</button>
+    </div>
+  </div>
+  <div class="row2">
+    <label>Stan łaski</label>
+    <div class="seg" id="seg-grace">
+      <button data-v="hoja">Łaska</button>
+      <button data-v="warn">Niepokój</button>
+      <button data-v="bad">Gniew</button>
+    </div>
+  </div>
+  <div class="row2">
+    <label>Ekran startowy</label>
+    <div class="seg" id="seg-screen">
+      <button data-v="onboarding">Onb.</button>
+      <button data-v="dashboard">Dash</button>
+      <button data-v="horda">Horda</button>
+    </div>
+  </div>
+  <div style="font-size:10px;color:var(--ink-faint);font-family:'JetBrains Mono',monospace;margin-top:10px;">
+    Włącz Tweaks z paska narzędzi u góry
+  </div>
+</div>
+
+<script>
+  // Tweakable defaults — host persists these on edit.
+  window.TWEAKS = /*EDITMODE-BEGIN*/{
+    "tone": "plain",
+    "grace": "hoja",
+    "startScreen": "dashboard"
+  }/*EDITMODE-END*/;
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="prototype-screens.jsx"></script>
+<script type="text/babel" src="prototype-main.jsx"></script>
+
+</body>
+</html>

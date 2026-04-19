@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1680, initial-scale=1" />
+<title>Freyr's Eye — Wireframes</title>
+<link rel="stylesheet" href="sketch-style.css" />
+</head>
+<body data-tone="saga" data-state="ok">
+
+<!-- SVG filters shared by all sketchy elements -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="rough-filter" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="7" />
+      <feDisplacementMap in="SourceGraphic" scale="1.6" />
+    </filter>
+  </defs>
+</svg>
+
+<div class="page">
+  <header class="masthead">
+    <div>
+      <h1>Freyr's Eye <span class="runes">ᚠᚱᛖᛃᚱᛋ ᛖᛃᛖ</span></h1>
+      <div class="tag">wireframes · pełny flow · 3 warianty / ekran · iOS frame · szkic</div>
+    </div>
+    <div class="meta">
+      <b>Plan szkicu.</b> Eksploracja układu i hierarchii; kopy w trybie <b>Saga</b> (skald-zielarz) lub <b>Plain</b> (zwykły polski, konkret). Palety nie ruszamy — brąz lnu, pergamin, jeden akcent ugru. Przełącznik w prawym dolnym rogu (włącz „Tweaks" na pasku).
+    </div>
+  </header>
+
+  <!-- Legend / system -->
+  <section class="section" style="margin-top:28px;">
+    <div class="section-head">
+      <span class="num">0</span>
+      <span class="name">System szkicu</span>
+      <span class="mono">legenda</span>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:18px;">
+      <div class="sketch-panel">
+        <div class="hand" style="font-size:22px;">Runy = parametry</div>
+        <div class="mono muted" style="margin-top:4px;">ᚦ ciepło · ᛚ woda · ᛋ słońce · ᛃ plon/gleba</div>
+      </div>
+      <div class="sketch-panel">
+        <div class="hand" style="font-size:22px;">Łaska Freja 0–100</div>
+        <div class="mono muted" style="margin-top:4px;">zamiast „health score" — jedna liczba z narracją</div>
+      </div>
+      <div class="sketch-panel">
+        <div class="hand" style="font-size:22px;">Dwa tryby mowy</div>
+        <div class="mono muted" style="margin-top:4px;">Saga (skald) ↔ Plain (konkret) — toggle globalny</div>
+      </div>
+      <div class="sketch-panel">
+        <div class="hand" style="font-size:22px;">Dash-krzywe = szkic</div>
+        <div class="mono muted" style="margin-top:4px;">wszystko ma być „od ołówka" do czasu decyzji</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Onboarding -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">1</span>
+      <span class="name">Onboarding · „Wezwij Oko Freja"</span>
+      <span class="mono">3 warianty</span>
+    </div>
+    <div class="variants">
+      <div class="variant">
+        <div class="label">A · Linearny flow</div>
+        <div class="sub">jeden krok na ekran, klasyczny kreator</div>
+        <div id="onboard-a"></div>
+      </div>
+      <div class="variant">
+        <div class="label">B · Obrzęd</div>
+        <div class="sub">jedna lista, cztery runy jako postęp</div>
+        <div id="onboard-b"></div>
+      </div>
+      <div class="variant">
+        <div class="label">C · Rozmowa ze skaldem</div>
+        <div class="sub">kamera pod spodem, skald prowadzi</div>
+        <div id="onboard-c"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Dashboard -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">2</span>
+      <span class="name">Dashboard · „Wzrok Freja"</span>
+      <span class="mono">3 warianty · 4 stany łaski</span>
+    </div>
+    <div class="variants">
+      <div class="variant">
+        <div class="label">A · Tarcza + lista</div>
+        <div class="sub">hero gauge, cztery karty sensorów</div>
+        <div id="dash-a"></div>
+      </div>
+      <div class="variant">
+        <div class="label">B · Kamień runiczny</div>
+        <div class="sub">liczba łaski jak wyrok na głazie</div>
+        <div id="dash-b"></div>
+      </div>
+      <div class="variant">
+        <div class="label">C · Strona kroniki</div>
+        <div class="sub">treść na wierzchu, sensory na stopce</div>
+        <div id="dash-c"></div>
+      </div>
+    </div>
+    <div style="margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:11px; color:#5b5449; letter-spacing:0.08em;">
+      ↓ STANY ŁASKI — zmień przez Tweaks ↓
+    </div>
+  </section>
+
+  <!-- 3. Chat -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">3</span>
+      <span class="name">Skald-Zielarz · chat kontekstowy</span>
+      <span class="mono">3 warianty · killer feature</span>
+    </div>
+    <div class="variants">
+      <div class="variant">
+        <div class="label">A · Klasyczny czat</div>
+        <div class="sub">bąble, input, standard branży</div>
+        <div id="chat-a"></div>
+      </div>
+      <div class="variant">
+        <div class="label">B · Rzuć runy</div>
+        <div class="sub">akcje strukturalne z priorytetem</div>
+        <div id="chat-b"></div>
+      </div>
+      <div class="variant">
+        <div class="label">C · Przy ognisku</div>
+        <div class="sub">tryb ciemny, skald „opowiada"</div>
+        <div id="chat-c"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Kronika -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">4</span>
+      <span class="name">Kronika · historia pomiarów i Saga dnia</span>
+      <span class="mono">3 warianty</span>
+    </div>
+    <div class="variants">
+      <div class="variant">
+        <div class="label">A · Timeline wpisów</div>
+        <div class="sub">lista sag dziennych wg tonów</div>
+        <div id="kron-a"></div>
+      </div>
+      <div class="variant">
+        <div class="label">B · Wykresy run</div>
+        <div class="sub">klasyczne linie per parametr</div>
+        <div id="kron-b"></div>
+      </div>
+      <div class="variant">
+        <div class="label">C · Manuskrypt tygodnia</div>
+        <div class="sub">jedna długa saga + pieczęć</div>
+        <div id="kron-c"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Settings + Horde -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">5</span>
+      <span class="name">Ustawienia · Horda Oczu</span>
+      <span class="mono">dwa ekrany uzupełniające</span>
+    </div>
+    <div class="variants" style="grid-template-columns: 1fr 1fr; max-width:900px; margin: 0 auto;">
+      <div class="variant">
+        <div class="label">Ustawienia ogrodu</div>
+        <div class="sub">tryb narracji, progi, stan Oka</div>
+        <div id="settings"></div>
+      </div>
+      <div class="variant">
+        <div class="label">Horda Oczu</div>
+        <div class="sub">mapa wielu Freyr-Eye · skalowanie do grodu</div>
+        <div id="horde"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. OLED -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">6</span>
+      <span class="name">Ekrany OLED · Oko w ziemi 128×64</span>
+      <span class="mono">4 ekrany + 2 stany</span>
+    </div>
+    <div id="oled"></div>
+    <div style="margin-top:20px; font-family:'Kalam', cursive; font-size:14px; color:#5b5449; max-width:780px;">
+      Proporcje 2:1 zachowane (szkic 232×116 ≈ 128×64 × 1.8). Monochromatycznie + 1 akcent ugru =<br/>symulacja „zwykły OLED + żółty LED" gdyby finalnie trafiła diodowa wersja. Animacja wake: trzy kropki → otwarcie oka → status.
+    </div>
+  </section>
+
+  <!-- 7. Next steps -->
+  <section class="section">
+    <div class="section-head">
+      <span class="num">7</span>
+      <span class="name">Co dalej</span>
+      <span class="mono">decyzje do podjęcia</span>
+    </div>
+    <div class="sketch-panel" style="padding: 18px 22px;">
+      <ul style="font-family:'Kalam', cursive; font-size:16px; line-height:1.6; margin:0; padding-left:22px; color:#2a2622;">
+        <li>Wybierz wariant <b>Dashboard</b> (A/B/C) — od tego wszystko się rozwinie. Dla pitchu B (kamień) gra klimatem, A jest safe, C jest narracyjny.</li>
+        <li>Chat: B („rzuć runy") jest najmocniejszy na demo, bo jurorowi pokazuje strukturalne akcje z liczbami. A + C możemy złożyć jako jeden ekran z trybem.</li>
+        <li>Kronika: C („manuskrypt") na pitch, B (wykresy) do rzeczywistego użytku. Warto mieć oba pod jedną taką.</li>
+        <li>OLED: 4 ekrany + wake + alarm ⇒ 6 stanów do wyrenderowania. U8g2 da radę na SSD1306.</li>
+        <li>Po wyborze wariantów → hi-fi mockup w ramce z prawdziwymi fontami (Gloock + Kalam są ok; do nagłówków runicznych warto dodać „Norsebold" lub „Runic" bez cienkich ligatur).</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<!-- Tweak panel -->
+<div id="tweak-panel">
+  <h4>Tweaks</h4>
+  <div class="row">
+    <label>Tryb mowy</label>
+    <div class="seg" data-group="tone">
+      <button data-val="saga" class="on">Saga</button>
+      <button data-val="plain">Plain</button>
+    </div>
+  </div>
+  <div class="row">
+    <label>Stan łaski</label>
+    <div class="seg" data-group="state">
+      <button data-val="bless">ᚠ bless</button>
+      <button data-val="ok" class="on">ok</button>
+      <button data-val="warn">warn</button>
+      <button data-val="bad">bad</button>
+    </div>
+  </div>
+  <div class="row" style="margin-top:8px; color:#9a8f7f; font-size:11px;">
+    tryb i stan działają na wszystkich dashboardach i wariantach chat/kronika naraz
+  </div>
+</div>
+
+<!-- Tweakable defaults (read by host) -->
+<script>
+  const FREYR_TWEAKS = /*EDITMODE-BEGIN*/{
+    "tone": "saga",
+    "state": "warn"
+  }/*EDITMODE-END*/;
+</script>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="sketch-components.jsx"></script>
+<script type="text/babel" src="screens-onboarding.jsx"></script>
+<script type="text/babel" src="screens-dashboard.jsx"></script>
+<script type="text/babel" src="screens-chat.jsx"></script>
+<script type="text/babel" src="screens-other.jsx"></script>
+
+<script type="text/babel">
+  function mount(id, El) {
+    const node = document.getElementById(id);
+    if (node) ReactDOM.createRoot(node).render(<El />);
+  }
+
+  mount('onboard-a', OnboardA);
+  mount('onboard-b', OnboardB);
+  mount('onboard-c', OnboardC);
+
+  // Dashboards read data-* from body so Tweaks control them
+  function DashWrap({ Comp }) {
+    const [, force] = React.useReducer(x => x + 1, 0);
+    React.useEffect(() => {
+      const obs = new MutationObserver(force);
+      obs.observe(document.body, { attributes: true, attributeFilter: ['data-state', 'data-tone'] });
+      return () => obs.disconnect();
+    }, []);
+    const tone = document.body.dataset.tone;
+    const state = document.body.dataset.state;
+    return <Comp tone={tone} state={state} />;
+  }
+  ReactDOM.createRoot(document.getElementById('dash-a')).render(<DashWrap Comp={DashA} />);
+  ReactDOM.createRoot(document.getElementById('dash-b')).render(<DashWrap Comp={DashB} />);
+  ReactDOM.createRoot(document.getElementById('dash-c')).render(<DashWrap Comp={DashC} />);
+
+  mount('chat-a', ChatA);
+  mount('chat-b', ChatB);
+  mount('chat-c', ChatC);
+  mount('kron-a', KronikaA);
+  mount('kron-b', KronikaB);
+  mount('kron-c', KronikaC);
+  mount('settings', Settings);
+  mount('horde', HordeView);
+  mount('oled', OledScreens);
+</script>
+
+<!-- Tweak / Edit mode bridge -->
+<script>
+  (function () {
+    const panel = document.getElementById('tweak-panel');
+    const body = document.body;
+
+    // apply initial
+    function apply(state) {
+      if (state.tone) body.dataset.tone = state.tone;
+      if (state.state) body.dataset.state = state.state;
+      panel.querySelectorAll('.seg').forEach(seg => {
+        const key = seg.dataset.group;
+        seg.querySelectorAll('button').forEach(b => {
+          b.classList.toggle('on', b.dataset.val === state[key]);
+        });
+      });
+    }
+    apply(FREYR_TWEAKS);
+
+    // clicks
+    panel.querySelectorAll('.seg button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const seg = btn.closest('.seg');
+        const key = seg.dataset.group;
+        const val = btn.dataset.val;
+        FREYR_TWEAKS[key] = val;
+        apply(FREYR_TWEAKS);
+        window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: val } }, '*');
+      });
+    });
+
+    // edit mode protocol — listener FIRST, then announce
+    window.addEventListener('message', (e) => {
+      if (!e.data || !e.data.type) return;
+      if (e.data.type === '__activate_edit_mode') panel.classList.add('visible');
+      if (e.data.type === '__deactivate_edit_mode') panel.classList.remove('visible');
+    });
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  })();
+</script>
+
+</body>
+</html>

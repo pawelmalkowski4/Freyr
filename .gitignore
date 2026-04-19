@@ -32,3 +32,14 @@ dist/
 build/
 .cache/
 .turbo/
+
+# Expo
+app/.expo/
+app/android/
+app/ios/
+*.jks
+*.keystore
+
+# Gradle
+.gradle/
+local.properties
