@@ -1,6 +1,7 @@
 #include "light_sensor.h"
 #include <zephyr/drivers/adc.h>
 #include <zephyr/device.h>
+#include <math.h>
 #include <stdio.h>
 
 #define ADC_NODE DT_ALIAS(adc0)
