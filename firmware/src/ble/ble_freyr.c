@@ -192,7 +192,7 @@ int ble_freyr_init(void)
     return 0;
 }
 
-/* --- FUNKCJE WYSYŁAJĄCE DANE (NOTIFY) --- */
+/* --- FUNKCJE WYSYŁAJĄCE DANE --- */
 
 void ble_freyr_notify_temp(int16_t temp_celsius) {
     current_temp = temp_celsius;

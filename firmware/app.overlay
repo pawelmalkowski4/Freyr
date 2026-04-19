@@ -35,10 +35,26 @@
     pinctrl-0 = <&i2c22_default>;
     pinctrl-1 = <&i2c22_sleep>;
     pinctrl-names = "default", "sleep";
+    zephyr,concat-buf-size = <256>;
 
     bme280: bme280@76 {
         compatible = "bosch,bme280";
         reg = <0x76>;
+    };
+
+    sh1106: sh1106@3c {
+        compatible = "sinowealth,sh1106";
+        reg = <0x3c>;
+        width = <128>;
+        height = <64>;
+        segment-offset = <2>; /* Magiczna linijka dla ekranów 1.3" */
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <63>;
+        segment-remap;
+        com-invdir;
+        prechargep = <0x22>;
+        inversion-on;
     };
 
     clock-frequency = <I2C_BITRATE_STANDARD>;
