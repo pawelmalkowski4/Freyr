@@ -1,38 +1,6 @@
-# Zephyr / west
-build/
-build_*/
-.west/
-twister-out/
-twister-out.*/
+# editors
+*.swp
+*~
 
-# CMake
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-Makefile
-compile_commands.json
-
-# nRF Connect / SES
-.nrfconnect-*
-.vscode/
-*.emProject
-*.emSession
-
-# Artifacts
-*.hex
-*.bin
-*.elf
-*.map
-*.lst
-*.o
-*.a
-*.d
-
-# Python venv (west)
-.venv/
-__pycache__/
-*.pyc
-
-# Env
-.env
-.env.*
+# build
+/build*/
