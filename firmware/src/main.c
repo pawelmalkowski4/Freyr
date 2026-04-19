@@ -119,4 +119,6 @@ int main(void)
         k_msleep(1000);
         ble_timer++;
     }
+
+    return 0;
 }
