@@ -137,6 +137,38 @@ static const struct bt_data ad[] = {
 
 static const struct bt_data sd[] = {};
 
+static void connected(struct bt_conn *conn, uint8_t err) {
+    if (err) {
+        printf("BLE: Blad polaczenia (err %u)\n", err);
+    } else {
+        printf("BLE: Polaczono z aplikacja!\n");
+    }
+}
+
+static void disconnected(struct bt_conn *conn, uint8_t reason) {
+    printf("BLE: Rozlaczono (powod 0x%02x). Wznawiam rozglaszanie (Advertising)...\n", reason);
+    
+    struct bt_le_adv_param adv_param = {
+        .id = BT_ID_DEFAULT,
+        .sid = 0,
+        .options = BT_LE_ADV_OPT_CONN, 
+        .interval_min = BT_GAP_ADV_FAST_INT_MIN_2,
+        .interval_max = BT_GAP_ADV_FAST_INT_MAX_2,
+    };
+    
+    /* Płytka straciła połączenie, więc wymuszamy ponowne włączenie "widzialności" */
+    int err = bt_le_adv_start(&adv_param, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
+    if (err) {
+        printf("BLE: Nie udalo sie wznowic rozglaszania (err %d)\n", err);
+    }
+}
+
+/* Zarejestrowanie powyższych funkcji w systemie */
+BT_CONN_CB_DEFINE(conn_callbacks) = {
+    .connected = connected,
+    .disconnected = disconnected,
+};
+
 int ble_freyr_init(void)
 {
     int err = bt_enable(NULL);
