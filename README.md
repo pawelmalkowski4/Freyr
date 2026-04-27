@@ -1,100 +1,197 @@
-# Freyr's Eye — Oko Freja 🌱⚔️
+<div align="center">
 
-## AIoT strażnik świętych ogrodów dla Inteligentnego Miasta Wikingów
+# Freyr's Eye 🌱
 
-Aplikacja mobilna (React Native + Expo), backend proxy (Hono/Cloudflare Workers) oraz firmware na nRF54L15-DK. System monitoruje warunki upraw, **identyfikuje gatunki roślin przez Gemini Vision** i **weryfikuje warunki wzrostu** na podstawie pomiarów z czujników — inteligentny strażnik zielnika, spichlerza i ogrodu osadniczego, z wbudowanym skaldem-doradcą.
+### Know exactly what your plants need — without guessing.
 
-> _"Kiedy zima trwała osiem miesięcy, a gród liczył dwieście dusz, strata upraw oznaczała śmierć. Wikingowie nie mogli sobie pozwolić na zwiędłą roślinę."_
+**An AIoT plant monitoring system: a soil-planted sensor + mobile app + AI advisor that identifies any plant from a photo and tells you when to water, in plain language.**
 
----
+[![Hackathon](https://img.shields.io/badge/Hacknarök%20X-2nd%20place%20%F0%9F%A5%88-c8a563)](https://hacknarok.pl/)
+[![Stack](https://img.shields.io/badge/stack-firmware%20%2B%20mobile%20%2B%20backend%20%2B%20AI-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
 
-## 1. Wizja produktu
-
-**Kontekst historyczny:** Wikingowie nie byli tylko wojownikami — byli **rolnikami, zielarzami, browarnikami**. Uprawiali len (na żagle i ubrania), jęczmień (chleb i piwo), zioła lecznicze (szałwia, tymianek, krwawnik), warzywa korzenne (rzepa, kapusta). Każdy gród miał ogród ziół przy domu wiedmy/zielarki. Bogowie płodności — **Freyr** i jego siostra **Freja** — byli patronami urodzaju. Zła uprawa = klątwa, głód, śmierć osady.
-
-**Problem dla współczesnego "miasta Wikingów":** Smart city to nie tylko transport i energia. To też **produkcja żywności** — ogrody społecznościowe, miejskie uprawy ziół, szklarnie szkolne, pasieki. W rekonstrukcjach historycznych i skansenach wikińskich (np. Wolin, Biskupin) uprawia się autentyczne gatunki epoki — ale bez monitoringu giną przy pierwszej suszy. Ogólnikowe poradniki nie pomogą, gdy masz konkretny ogródek z konkretnymi warunkami.
-
-**Rozwiązanie: Freyr's Eye** — "oko boga płodności" zatknięte w ziemi. Czujnik wkładany w grządkę + aplikacja jarla (właściciela ogrodu). User robi zdjęcie rośliny → LLM (jako **skald-zielarz**) identyfikuje gatunek → aplikacja porównuje odczyty BME280/TEMT6000/HW-390 z optymalnym zakresem → LLM generuje wyrocznię w stylu sagi: _"Len ten woła o wodę. Jeśli do wieczora nie spadnie deszcz Thora, podlej go dwiema czerpakami. Inaczej Freja odwróci od tej grządki wzrok."_
-
-**Kluczowa różnica:** Nie kolejny smart-gardening dashboard. **LLM jako cyfrowy skald-zielarz** — nie tylko pokazuje dane, ale tłumaczy co z nimi zrobić w języku, który angażuje użytkownika i wpisuje się w kulturową warstwę smart-city. Technologia zamaskowana narracją = produkt z duszą, nie kolejny "IoT hub z wykresami".
-
-### 1.1. Zastosowania w Inteligentnym Mieście Wikingów
-
-Freyr's Eye skaluje się z jednej doniczki do całej osady:
-
-| Skala                             | Zastosowanie                                                                                                 |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| **Pojedyncza grządka**            | Zielnik przy domu wiedmy — szałwia, tymianek, krwawnik, dziurawiec. Alarm gdy za sucho.                      |
-| **Ogród warzywny**                | Kilka Freyr's Eye w sieci BLE, każdy pilnuje innej grządki (rzepa, kapusta, fasola). Telefon jarla agreguje. |
-| **Spichlerz / świeże zbiory**     | BME280 monitoruje czy siano i ziarno nie pleśnieją (wilgotność powietrza). Kluczowe zimą.                    |
-| **Sadzonki w ziemiance**          | Rozsada zaczynana wczesną wiosną w chacie — TEMT6000 mierzy czy światła ze świec starczy.                    |
-| **Pasieka (stretch)**             | BME280 w ulu — temperatura roju = zdrowie pszczół. Miód to gospodarka osady.                                 |
-| **Święty gaj / drzewa Yggdrasil** | HC-SR04 mierzy wysokość młodego drzewka rok do roku — pamięć pokoleń osady.                                  |
-
-### 1.2. Dlaczego to pasuje do tematu "Inteligentne miasto Wikingów"
-
-Inteligentne miasto to nie tylko sensory ruchu i inteligentne latarnie. **Produkcja żywności** jest fundamentem każdej cywilizacji, a dla Wikingów była różnicą między przeżyciem a klęską. Nasza aplikacja:
-
-- **Rozwiązuje realny problem** (monitoring upraw) w ramach tematu (kultura Wikingów)
-- **Łączy hardware z narracją** — sensor w ziemi + LLM generujący przepowiednie Freja = immersja, nie tylko dane
-- **Skaluje się** od prywatnego zielnika do całego grodu (mesh BLE, wielu Freyr's Eye)
-- **Ma edukacyjną wartość** — użytkownik uczy się o autentycznych uprawach epoki przy okazji dbania o swoje rośliny
-- **Jest demokratyczne** — od pojedynczego mieszkańca grodu po jarla zarządzającego zbiorami
+</div>
 
 ---
 
-## 2. Stack techniczny
+> 🏆 **2nd place — Hacknarök X (April 19, 2026)**
+> Built in 24 hours at the 10th anniversary edition of EESTEC AGH Kraków's Nordic-themed hackathon. The event ran under a *Smart Viking City* theme, which is why you'll find the occasional saga reference in our copy and a digital "skald" persona inside the chat — but the product itself is a fully functional plant care system that works for any indoor garden, community plot, or greenhouse.
+
+---
+
+## 🎬 Demo
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=k3n2ZhQ2eA8">
+    <img src="https://img.youtube.com/vi/k3n2ZhQ2eA8/maxresdefault.jpg" alt="Freyr's Eye — demo video" width="500"/>
+  </a>
+  <br/>
+  <em>▶️ Click to watch the 22-second demo</em>
+</p>
+
+<p align="center">
+  <img src="docs/00_installation.jpg" alt="Freyr's Eye full installation — sensor planted in a houseplant" width="450"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="docs/01_hero.jpg" alt="Mobile app — plant collection overview" width="280"/>
+</p>
+
+---
+
+## 📌 What it does
+
+Plants die because their owners don't know what they actually need. Generic care guides don't help when you have a specific plant in a specific spot with specific light and humidity.
+
+**Freyr's Eye** closes that loop end-to-end:
+
+1. **Plant the sensor** in the soil — it measures soil moisture, air temperature, humidity, and light intensity.
+2. **Snap a photo** in the mobile app — Gemini Vision identifies the species and pulls the optimal growth ranges.
+3. **Get specific, actionable advice** — the app compares live readings to the ideal range and tells you exactly what to do, when. No charts to interpret, no Googling.
+
+A full-stack project — **firmware (Zephyr RTOS) + mobile (React Native) + backend (Cloudflare Workers) + AI (Gemini Vision)** — built in 24 hours.
+
+**Why this is different from yet-another-plant-app:**
+- 🔌 Real hardware, not just a dashboard — custom BLE sensor running on nRF54L15
+- 🧠 LLM as a UX layer, not a data pipe — translates raw sensor data into concrete actions
+- 📡 Works offline at the edge — OLED display shows readings without a phone
+- 🔋 Years on a single battery thanks to BLE LE
+- 🏘️ Scales from one pot to a whole community garden
+
+---
+
+## ✨ Features
+
+### 🌿 AI species recognition
+Snap a photo, and Gemini Vision identifies the species in a fraction of a second and pulls the ideal ranges — soil moisture, light, temperature, air humidity. No more guessing, no more plants that wilt after a week because their owner didn't know how to care for them.
+
+<p align="center">
+  <img src="docs/02_ai_recognition.jpg" alt="AI plant species recognition with Gemini Vision" width="800"/>
+</p>
+
+### 📡 Pair the Freyr Node over BLE
+Pair the Freyr Node sensor over Bluetooth in seconds. Temperature, air humidity, soil moisture, and light intensity — all live, in one place. No cables, no setup wizard.
+
+<p align="center">
+  <img src="docs/03_ble_pairing.jpg" alt="Bluetooth LE pairing with Freyr Node" width="400"/>
+</p>
+
+### 📊 Live monitoring — app + OLED
+Every parameter is visible both in the mobile app and on the on-device OLED display, so you can check on your plant whether or not your phone is around. The system flags when it's time to water.
+
+<p align="center">
+  <img src="docs/04a_live_monitoring_app.jpg" alt="Live sensor monitoring in the app" width="400"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="docs/04b_live_monitoring_oled.jpg" alt="On-device OLED display showing live readings" width="400"/>
+</p>
+
+### 💬 Plant-aware chat assistant
+A built-in chat answers questions in context. Responses are scoped to the specific plant the user is asking about — you won't get apple-tree advice when asking about a cactus. A personal plant advisor, available 24/7, tuned to your actual sensor data.
+
+<p align="center">
+  <img src="docs/05_chat_assistant.jpg" alt="Plant-aware chat assistant" width="400"/>
+</p>
+
+### 📜 Care journal
+Log watering, pruning, fertilizing, and other care actions to avoid overwatering and to track plant status over time. (We call it the *Chronicle* — a small nod to the hackathon theme.)
+
+<p align="center">
+  <img src="docs/06_chronicle.jpg" alt="Care journal — chronicle of events" width="800"/>
+</p>
+
+### 🏆 Community leaderboard
+See how your plants are doing compared to other users. The ranking averages the condition of all plants in your collection and stacks it against the community — friendly competition that motivates better care and surfaces what works for others.
+
+<p align="center">
+  <img src="docs/07_leaderboard.jpg" alt="Community leaderboard" width="400"/>
+</p>
+
+### 🔋 Years on a single battery
+Built on the Nordic Semiconductor nRF54L15 with Bluetooth LE — the Freyr Node runs for years on a single battery, no wall power needed.
+
+---
+
+## 🛠 Tech stack
 
 ### Hardware
-
-- **nRF54L15-DK** — MCU z BLE 5.4 (główny kontroler)
-- **BME280** (I²C) — temperatura, wilgotność powietrza, ciśnienie
-- **TEMT6000** (ADC) — natężenie światła
-- **HW-390** (ADC, capacitive) — wilgotność gleby _(pojemnościowy, nie koroduje jak rezystancyjny)_
-- **VL53L1X / VL53L0X ToF** (I²C) — czujnik odległości jako **proximity wake-up trigger** (user zbliża rękę → budzi wyświetlacz)
-- **Wyświetlacz OLED 1.3" SH1106/SSD1306** (I²C, 128×64) — lokalny podgląd pomiarów i statusu rośliny bez telefonu
-- **LED RGB / 3× LED** — wskaźnik statusu (zielony OK / żółty uwaga / czerwony alarm)
-- **Joystick** _(opcjonalnie)_ — nawigacja po ekranach OLED (przeklikiwanie między parametrami)
-- **Głośnik YD58** _(opcjonalnie)_ — alarm dźwiękowy "podlej mnie"
+| Component | Role |
+|---|---|
+| **nRF54L15-DK** | MCU + BLE 5.4, main controller |
+| **BME280** (I²C) | temperature, air humidity, pressure |
+| **TEMT6000** (ADC) | light intensity |
+| **HW-390** (ADC, capacitive) | soil moisture — capacitive, no corrosion |
+| **VL53L1X ToF** (I²C) | proximity wake-up — hand approach wakes the display |
+| **OLED 1.3" SH1106** (I²C, 128×64) | local readout without phone |
+| **RGB LED** | status indicator (green / yellow / red) |
 
 ### Firmware
-
-- **Zephyr RTOS** (natywny dla nRF Connect SDK)
-- **Nordic Soft Device / BLE host stack**
-- GATT profil: custom service z charakterystykami per sensor + notify
+- **Zephyr RTOS** (nRF Connect SDK)
+- **Nordic SoftDevice / BLE host stack**
+- Custom GATT service with per-sensor characteristics + notify
 
 ### Mobile
-
-- **React Native** (Expo Dev Client — _nie Expo Go_, bo potrzebujemy natywnego BLE)
-- **react-native-ble-plx** — komunikacja BLE
-- **Zustand** lub **Redux Toolkit** — state
-- **React Navigation**
-- **Victory Native** / **react-native-gifted-charts** — wykresy
-- **expo-image-picker** / **react-native-vision-camera** — zdjęcie rośliny
+- **React Native** + **Expo Dev Client** (native BLE requires a dev client, not Expo Go)
+- **react-native-ble-plx** — BLE communication
+- **Zustand** — state management
+- **React Navigation**, **Victory Native** — charts
+- **expo-image-picker** — plant photography
 
 ### Backend / AI
+- **Google Gemini API** (`gemini-3-flash-preview`) — vision for species identification + contextual chat
+- **Hono on Cloudflare Workers** — proxy, so the API key never lives in the app
 
-- **Google Gemini API** — `gemini-3-flash-preview` — identyfikacja gatunku z obrazu (vision) + rekomendacje + chat kontekstowy
-- Prosty proxy backend (**Node.js / Hono na Cloudflare Workers** albo **FastAPI**) — żeby nie trzymać klucza API w apce
-- **Supabase** _(opcjonalnie)_ — persystencja historii pomiarów, sync między urządzeniami
-
-**Dlaczego Gemini 3 Flash:**
-
-- Thinking model z konfigurowalnym poziomem rozumowania (minimal/low/medium/high) — można balansować jakość vs latencję vs koszt
-- Multimodalne wejścia: tekst, obrazy, audio, wideo, PDF + 1M tokenów kontekstu — identyfikacja rośliny ze zdjęcia działa natywnie
-- Automatic context caching — idealne dla naszego przypadku, bo gatunek + optymalne zakresy są stałe przez całą sesję
-- $0.50 za 1M input tokens, $3 za 1M output tokens — tanio, starcza na hackathon i dalej
+**Why Gemini 3 Flash:** thinking model with configurable reasoning effort, multimodal input (image + text), 1M token context, automatic context caching (species + optimal ranges stay constant for the session).
 
 ---
 
-## 3. Struktura repozytorium
+## 📁 Repository structure
 
-Monorepo, dwa główne foldery:
+Monorepo:
 
 ```
 freyrs-eye/
 ├── app/                    # React Native + Expo Dev Client
 │   ├── src/
-│   │   ├── ble/            # react-native-ble-plx wrapper, GATT codec
-│   │   ├── screens/        # Dashboard, Onboarding, AIAdvisor, History, Settings
+│   │   ├── ble/            # ble-plx wrapper, GATT codec
+│   │   ├── screens/        # Dashboard, Onboarding, AIAdvisor, History
 │   │   ├── components/     # SensorCard, StatusBadge, PlantAvatar
+│   │   └── services/       # gemini client, persistence
+├── backend/                # Hono on Cloudflare Workers (Gemini proxy)
+├── firmware/               # Zephyr application for nRF54L15-DK
+├── design_prototype/       # UI mockups
+└── docs/                   # README screenshots, diagrams
+```
+
+---
+
+## 🌍 Use cases — from one pot to a whole settlement
+
+| Scale | Use case |
+|---|---|
+| **Single plant** | Home herb garden — sage, thyme, basil. Alert when too dry |
+| **Vegetable garden** | Multiple Freyr Nodes in a BLE mesh, phone aggregates readings |
+| **Greenhouse / nursery** | Monitor humidity to prevent mold on seedlings or stored harvest |
+| **Community garden** | Shared monitoring across a plot, with the leaderboard adding social motivation |
+| **Historical reconstructions** | Period-authentic crops at open-air museums under continuous care |
+| **Apiary** *(stretch)* | Hive temperature as a proxy for colony health |
+
+---
+
+## 👥 Team — *Impreza Informatyków*
+
+- **Paweł Bolek**
+- **Konrad Drożdż**
+- **Maciej Klepacki**
+- **Paweł Małkowski**
+
+---
+
+## 🏆 Hackathon
+
+**Hacknarök X** — April 18–19, 2026, Lubicz Park, Kraków. The 10th anniversary edition of the largest Nordic-themed programming marathon in Poland, organized by EESTEC AGH Kraków. 24 hours, specialist category, theme *Smart Viking City*.
+
+**🥈 Result: 2nd place.**
+
+---
+
+## 📜 License
+
+MIT
