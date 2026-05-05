@@ -191,7 +191,14 @@ freyrs-eye/
 **🥈 Result: 2nd place.**
 
 ---
+## 📸 And some pics from event
 
+<img src="docs/20260418_KSAF_AGH_Hacknarok_MRojek_043.jpg">
+<img src="docs/20260419_KSAF_AGH_Hacknarok_KMarchewka_001.jpg">
+<img src="docs/668530621_955176034045605_5772717714154333537_n.jpg">
+<img src="docs/20260419_KSAF_AGH_Hacknarok_NMichankow_029.jpg">
+
+---
 ## 📜 License
 
 MIT
